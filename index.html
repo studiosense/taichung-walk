@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>台中舊城導覽 - 第一站</title>
+    <style>
+        body { font-family: sans-serif; margin: 0; background: #f4f1ea; color: #333; }
+        .hero { width: 100%; height: 200px; background: #8b5e3c; color: white; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+        .content { padding: 20px; line-height: 1.6; }
+        .audio-player { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-top: 20px; }
+        .btn { display: block; width: 100%; padding: 15px; background: #d4a373; color: white; text-align: center; text-decoration: none; border-radius: 5px; margin-top: 20px; font-weight: bold; }
+   
+.comparison-slider {
+    position: relative;
+    width: 100%;
+    height: 300px; /* 你可以根據圖片比例調整高度 */
+    overflow: hidden;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+.comparison-slider img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%; /* 初始顯示一半 */
+    height: 100%;
+    overflow: hidden;
+    border-right: 2px solid white;
+}
+
+.slider-button {
+    position: absolute;
+    top: 0;
+    left: 50%; /* 跟隨 overlay 的寬度 */
+    width: 40px;
+    height: 40px;
+    background: white;
+    border-radius: 50%;
+    transform: translate(-50%, 130px); /* 讓圓鈕置中 */
+    cursor: ew-resize;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.slider-button::before {
+    content: "↔";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: #8b5e3c;
+    font-weight: bold;
+}
+ </style>
+</head>
+<body>
+    <div class="hero">📍 台中火車站 (舊站)</div>
+    <div class="content">
+        <h3>消失的時光：這曾是全台最美的車站</h3>
+        <p>歡迎來到 1917 年完工的第二代台中車站。請抬頭看那紅磚與白飾帶的結合，這就是經典的「辰野金吾」風格...</p>
+ 
+
+    <div class="comparison-slider">
+        <img src="station_new.jpg" alt="現在的樣貌">
+    
+    <div class="overlay" id="overlay">
+        <img src="station_old.jpg" alt="歷史的樣貌">
+    </div>
+    
+    <div class="slider-button" id="slider-button"></div>
+</div>
+
+        <div class="audio-player">
+            <span>🎧 聽聽導覽員的故事</span>
+            <audio controls style="width: 100%;">
+                <source src="你的語音檔案網址.mp3" type="audio/mpeg">
+            </audio>
+        </div>
+
+        <a href="miyahara.html" class="btn">👣 下一站：前往宮原眼科</a>
+    </div>
+
+<script>
+
+const slider = document.querySelector('.comparison-slider');
+const overlay = document.getElementById('overlay');
+const button = document.getElementById('slider-button');
+
+const moveSlider = (e) => {
+    // 取得觸摸或滑鼠的 X 座標
+    let x = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+    let rect = slider.getBoundingClientRect();
+    let position = x - rect.left;
+
+    // 限制滑動範圍在容器內
+    if (position < 0) position = 0;
+    if (position > rect.width) position = rect.width;
+
+    // 更新寬度與按鈕位置
+    let percent = (position / rect.width) * 100;
+    overlay.style.width = percent + '%';
+    button.style.left = percent + '%';
+};
+
+// 監聽滑鼠與手指觸控
+slider.addEventListener('mousemove', moveSlider);
+slider.addEventListener('touchmove', moveSlider);
+
+</script>
+
+</body>
+</html>
