@@ -45,6 +45,14 @@
             font-size: 0.8rem;
             opacity: 0.7;
         }
+
+
+        .fade-out {
+            opacity: 0;
+            transition: opacity 3s ease-out; /* 3秒內慢慢變透明 */
+        }
+
+
     </style>
 </head>
 
@@ -71,19 +79,24 @@
 <script>
 function playAndGo() {
     var audio = document.getElementById("welcome-bgm");
+    var screen = document.querySelector('.welcome-screen');
     
     // 先嘗試播放音樂
     audio.play().then(() => {
-        // 播放成功，延遲跳轉讓遊客聽到前奏
+        // 3秒後開始啟動「畫面淡出」
+        setTimeout(function() {
+            screen.classList.add('fade-out');
+        }, 3000);
+
+        // 5秒後正式跳轉（此時畫面已經變暗了）
         setTimeout(function() {
             window.location.href = "station.html";
-        }, 1200); 
+        }, 5000); 
     }).catch(error => {
-        // 如果瀏覽器攔截（例如沒聲音），還是要讓遊客能進入導覽
-        console.log("音樂播放受阻：", error);
         window.location.href = "station.html";
     });
 }
+
 </script>
  
 
