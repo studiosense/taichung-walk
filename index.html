@@ -47,6 +47,7 @@
         }
     </style>
 </head>
+
 <body>
 
       <div class="welcome-screen">
@@ -54,33 +55,37 @@
         <p>探索台中舊城的百年物語</p>
             </div>
         
-      <audio id="welcome-bgm" loop>
-           <source src="bgm-index.mp3" type="audio/mpeg">
-       </audio>
-       <a href="javascript:void(0);" onclick="playAndGo()" class="start-btn">踏上旅程</a>     
-     
+      <audio id="welcome-bgm" preload="auto">
+    <source src="bgm-index.mp3" type="audio/mpeg">
+</audio>
 
-       function playAndGo() {
-          var audio = document.getElementById("welcome-bgm");
+<a href="javascript:void(0);" onclick="playAndGo()" class="start-btn">踏上旅程</a>
+
+<script>
+function playAndGo() {
+    var audio = document.getElementById("welcome-bgm");
     
-        // 播放音樂
-        audio.play().then(() => {
-           // 音樂成功播放後，延遲 800 毫秒再跳轉，讓音樂有被聽到的瞬間
-           setTimeout(function() {
-               window.location.href = "station.html";
-           }, 800);
-        }).catch(error => {
-           // 如果瀏覽器還是攔截了，直接跳轉
-           window.location.href = "station.html";
-        });
-       }
+    // 先嘗試播放音樂
+    audio.play().then(() => {
+        // 播放成功，延遲跳轉讓遊客聽到前奏
+        setTimeout(function() {
+            window.location.href = "station.html";
+        }, 1200); 
+    }).catch(error => {
+        // 如果瀏覽器攔截（例如沒聲音），還是要讓遊客能進入導覽
+        console.log("音樂播放受阻：", error);
+        window.location.href = "station.html";
+    });
+}
+</script>
  
         <div class="footer-nav-links" style="margin-top: 50px; display: flex; gap: 20px;">
             </div>
+
         <div class="footer-info">
             © 2026 台中舊城導覽系統 Studio Sense
         </div>
+    </div>
 
-    
 </body>
 </html>
