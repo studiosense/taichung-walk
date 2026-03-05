@@ -54,21 +54,14 @@
         <p>探索台中舊城的百年物語</p>
             </div>
         
-        <a href="javascript:void(0);" onclick="playAndGo()" class="start-btn">踏上旅程</a>
- 
-       <audio id="welcome-bgm" loop>
+      <audio id="welcome-bgm" loop>
            <source src="bgm-index.mp3" type="audio/mpeg">
        </audio>
-
+       <a href="javascript:void(0);" onclick="playAndGo()" class="start-btn">踏上旅程</a>     
        <div class="footer-nav-links" style="margin-top: 50px; display: flex; gap: 20px;">
-            </div>      
+            </div>
 
-        <div class="footer-info">
-            © 2026 台中舊城導覽系統 Studio Sense
-        </div>
-
-<script>
-      function playAndGo() {
+       function playAndGo() {
           var audio = document.getElementById("welcome-bgm");
     
         // 播放音樂
@@ -82,7 +75,12 @@
            window.location.href = "station.html";
         });
        }
-</script>
+ 
 
+        <div class="footer-info">
+            © 2026 台中舊城導覽系統 Studio Sense
+        </div>
+
+    
 </body>
 </html>
