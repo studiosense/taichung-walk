@@ -56,26 +56,11 @@
         <a href="javascript:void(0);" onclick="playAndGo()" class="start-btn">踏上旅程</a>
  
        <audio id="welcome-bgm" loop>
-       <source src="bgm-index.mp3" type="audio/mpeg">
+           <source src="bgm-index.mp3" type="audio/mpeg">
        </audio>
 
-        <div class="footer-nav-links" style="margin-top: 50px; display: flex; gap: 20px;">
-            </div>
-
-        function playAndGo() {
-          var audio = document.getElementById("welcome-bgm");
-    
-        // 播放音樂
-        audio.play().then(() => {
-           // 音樂成功播放後，延遲 800 毫秒再跳轉，讓音樂有被聽到的瞬間
-           setTimeout(function() {
-               window.location.href = "station.html";
-           }, 800);
-    }).catch(error => {
-        // 如果瀏覽器還是攔截了，直接跳轉
-        window.location.href = "station.html";
-    });
-}
+       <div class="footer-nav-links" style="margin-top: 50px; display: flex; gap: 20px;">
+            </div>      
 
         <div class="footer-info">
             © 2026 台中舊城導覽系統 Studio Sense
@@ -84,6 +69,21 @@
     </div>
 
 
+
+      function playAndGo() {
+          var audio = document.getElementById("welcome-bgm");
+    
+        // 播放音樂
+        audio.play().then(() => {
+           // 音樂成功播放後，延遲 800 毫秒再跳轉，讓音樂有被聽到的瞬間
+           setTimeout(function() {
+               window.location.href = "station.html";
+           }, 800);
+        }).catch(error => {
+           // 如果瀏覽器還是攔截了，直接跳轉
+           window.location.href = "station.html";
+        });
+       }
 
 </body>
 </html>
