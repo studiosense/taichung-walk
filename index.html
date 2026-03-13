@@ -1,104 +1,203 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>台中舊城導覽 - 時空散步</title>
+    <title>時空畫筆：台中舊城藝術導覽</title>
     <style>
-        body, html { height: 100%; margin: 0; font-family: 'Noto Sans TC', sans-serif; }
-        
-        /* 背景圖設定 */
+        :root {
+            --primary-color: #8c7355; /* 復古大地色 */
+            --bg-color: #f4f1ea;
+        }
+
+        body {
+            font-family: "Noto Serif TC", serif;
+            margin: 0;
+            background-color: var(--bg-color);
+            color: #333;
+        }
+
+        /* 入口畫面 */
         .welcome-screen {
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-                        url('bg-index.jpg'); /* 建議換成你的台中車站美照 */
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        url('bg-artist.jpg'); /* 建議放一張台中公園老畫作 */
             background-size: cover;
             background-position: center;
-            height: 100%;
+            height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
             color: white;
+            transition: opacity 1.5s ease;
         }
 
-        h1 { font-size: 2.5rem; margin-bottom: 10px; letter-spacing: 5px; }
-        p { font-size: 1.1rem; margin-bottom: 30px; opacity: 0.9; }
+        .welcome-screen h1 { font-size: 2.5rem; letter-spacing: 5px; }
+        .welcome-screen p { font-size: 1.1rem; margin-bottom: 30px; }
 
+        /* 按鈕設計 */
         .start-btn {
-            padding: 15px 40px;
-            background-color: #d4a373;
+            padding: 12px 35px;
+            border: 2px solid white;
             color: white;
             text-decoration: none;
-            border-radius: 50px;
-            font-size: 1.2rem;
             font-weight: bold;
-            transition: 0.3s;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+            cursor: pointer;
         }
 
-        .start-btn:hover { background-color: #8b5e3c; transform: scale(1.05); }
+        .start-btn:hover { background: white; color: var(--primary-color); }
 
-        .footer-info {
+        /* 景點卡片容器 */
+        .container { padding: 20px; display: none; }
+        
+        .station-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        /* 藝術對位容器 */
+        .comparison-container {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .art-image, .real-image {
             position: absolute;
-            bottom: 20px;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.5s;
+        }
+
+        .art-image { opacity: 1; }
+        .real-image { opacity: 0; }
+
+        /* 切換按鈕樣式 */
+        .toggle-view-btn {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            padding: 5px 12px;
+            border-radius: 20px;
             font-size: 0.8rem;
-            opacity: 0.7;
+            cursor: pointer;
         }
 
-
-        .fade-out {
-            opacity: 0;
-            transition: opacity 3s ease-out; /* 3秒內慢慢變透明 */
-        }
-
-
+        .info-content { padding: 20px; }
+        .audio-player { margin-top: 15px; width: 100%; }
+        
+        .fade-out { opacity: 0; pointer-events: none; }
     </style>
 </head>
-
 <body>
 
-      <div class="welcome-screen">
-        <h1>時空散步</h1>
-        <p>探索台中舊城的百年物語</p>
-              
-        <audio id="welcome-bgm" preload="auto">
-          <source src="bgm-index.MP3" type="audio/mpeg">
-        </audio>
+    <audio id="welcome-bgm" loop>
+        <source src="showa-modern.MP3" type="audio/mpeg">
+    </audio>
 
-       <a href="javascript:void(0);" onclick="playAndGo()" class="start-btn">踏上旅程</a>
+    <div id="welcome" class="welcome-screen">
+        <h1>時空畫筆</h1>
+        <p>台中舊城藝術散步</p>
+        <a href="javascript:void(0);" onclick="startTour()" class="start-btn">開啟導覽</a>
+    </div>
 
-        <div class="footer-nav-links" style="margin-top: 50px; display: flex; gap: 20px;">
+    <div id="main-content" class="container">
+        
+        <div class="station-card">
+            <div class="comparison-container" id="station1">
+                <img src="lin-lake.jpg" class="art-image" alt="林之助畫作">
+                <img src="real-lake.jpg" class="real-image" alt="現代實景">
+                <button class="toggle-view-btn" onclick="toggleView('station1')">👁️ 切換現代實景</button>
             </div>
-
-        <div class="footer-info">
-            © 2026 台中舊城導覽系統 Studio Sense
+            <div class="info-content">
+                <h3>台中公園：湖心亭</h3>
+                <p>「這裡的綠與紅，畫家們最熱愛的寫生焦點。」</p>
+                <audio controls class="audio-player">
+                    <source src="audio-chen.mp3" type="audio/mpeg">
+                </audio>
+            </div>
         </div>
+
+        <div class="station-card">
+            <div class="comparison-container" id="station2">
+                <img src="lin-art.JPG" class="art-image" alt="林之助膠彩畫">
+                <img src="lin-studio.jpg" class="real-image" alt="林之助與妻子">
+                <button class="toggle-view-btn" onclick="toggleView('station2')">👁️ 切換現代實景</button>
+            </div>
+            <div class="info-content">
+                <h3>林之助紀念館</h3>
+                <p>感受「膠彩之父」筆下的光影細膩與畫室清幽。</p>
+                <audio controls class="audio-player">
+                    <source src="audio-lin.mp3" type="audio/mpeg">
+                </audio>
+            </div>
+        </div>
+
     </div>
 
 <script>
-function playAndGo() {
+    function startTour() {
     var audio = document.getElementById("welcome-bgm");
-    var screen = document.querySelector('.welcome-screen');
-    
-    // 先嘗試播放音樂
-    audio.play().then(() => {
-        // 3秒後開始啟動「畫面淡出」
-        setTimeout(function() {
-            screen.classList.add('fade-out');
-        }, 3000);
+    var welcome = document.getElementById("welcome");
+    var main = document.getElementById("main-content");
 
-        // 6秒後正式跳轉（此時畫面已經變暗了）
-        setTimeout(function() {
-            window.location.href = "station.html";
-        }, 6000); 
-    }).catch(error => {
-        window.location.href = "station.html";
-    });
+    // 1. 播放背景音樂
+    audio.play();
+
+    // 2. 設定在 15 秒後自動淡出並停止 (秒數可自行調整)
+    setTimeout(function() {
+        // 創造一個平滑的淡出效果 (Fade out)
+        var fadeAudio = setInterval(function () {
+            if (audio.volume > 0.1) {
+                audio.volume -= 0.1; // 每次減掉 0.1 的音量
+            } else {
+                audio.pause();
+                audio.currentTime = 0; // 重置音樂進度
+                clearInterval(fadeAudio);
+            }
+        }, 200); // 每 0.2 秒調整一次
+    }, 15000); // 15000 毫秒 = 15 秒
+
+    // 3. 入口畫面淡出轉場
+    welcome.classList.add('fade-out');
+    
+    setTimeout(function() {
+        welcome.style.display = 'none';
+        main.style.display = 'block';
+        window.scrollTo(0,0);
+    }, 1500);
 }
 
-</script>
- 
 
+        // 切換畫作與實景
+        function toggleView(stationId) {
+            const container = document.getElementById(stationId);
+            const art = container.querySelector('.art-image');
+            const real = container.querySelector('.real-image');
+            const btn = container.querySelector('.toggle-view-btn');
+
+            if (art.style.opacity === '0') {
+                art.style.opacity = '1';
+                real.style.opacity = '0';
+                btn.innerText = '👁️ 切換現代實景';
+            } else {
+                art.style.opacity = '0';
+                real.style.opacity = '1';
+                btn.innerText = '🎨 切換藝術原作';
+            }
+        }
+    </script>
 </body>
 </html>
+
+
+
